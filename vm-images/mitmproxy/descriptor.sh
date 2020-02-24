@@ -17,15 +17,26 @@ wget http://cloud-images.ubuntu.com/xenial/current/xenial-server-cloudimg-amd64-
 #         virt-customize -a [DOWNLOADED_FILE_NAME] --upload [src-file:dest-file]
 #Run with sudo
 virt-customize -a xenial-server-cloudimg-amd64-disk1.img \
+      --run-command 'apt-get update' \
+      --run-command 'DEBIAN_FRONTEND=noninteractive' \
+      --run-command 'apt-get install -y \
+                      net-tools \
+                      iproute2 \
+                      inetutils-ping \
+                      iptables \
+                      mitmproxy \
+                      curl \
+                      python \
+                      python-yaml \
+                      python3 \
+                      python3-pip' \
       --run-command 'echo "manage_etc_hosts: true" >> /etc/cloud/cloud.cfg' \
       --mkdir /tngbench_share \
       --upload log_intf_statistics.py:/log_intf_statistics.py \
       --upload start.sh:/start.sh \
       --upload stop.sh:/stop.sh \
       --run-command 'chmod +x start.sh' \
-      --run-command 'chmod +x stop.sh' \
-      --upload install.sh:/install.sh \
-      --run install.sh \
+      --run-command 'chmod +x stop.sh'
 
 
 
