@@ -1,0 +1,47 @@
+---
+# PED file for testing mitmproxy VNF with one input probe accessing Internet
+descriptor_version: 0.3 # 5GTANGO: 0.2, SONATA 0.1, PG-BACKFLIP 0.3
+vendor: "de.upb.cn"
+name: "ped-mitmproxy"
+version: "0.1"
+author: "Abdul Ahad"
+description: "Profiling mitmproxy VNF with  input/output probes"
+#Path for NSD & VNFD packages
+service_package: "../services/ns-mitmproxy.tar.gz"
+function_package: "../services/vnfd-mitmproxy.tar.gz"
+
+#Profiling Defination
+service_experiments:
+  - name: "ped-mitmproxy"
+    description: "result of ped-mitmproxy"
+    repetitions: 10
+    time_limit: 90
+    time_warmup: 30
+    target:
+      vendor: "de.upb.cn"
+      name: "ns-mitmproxy-nsd"
+      version: "1.0"
+# Input/Output Probe Defination
+    measurement_points:
+      - name: "mp.input"
+        connection_point: "ns:input"
+        vm_image: "apache-bench-ubuntu"   #from aahad91/squid_vnf branch osm-openstack-benchmarking
+      - name: "mp.output"
+        connection_point: "ns:output"
+        vm_image: "apache-webserver"
+    experiment_parameters:
+      - function: "vnfd-mitmproxy-vm"
+        cmd_start: "./start.sh"
+        cmd_stop: "./stop.sh"
+        cpu_cores: 1
+        mem_max: 2048
+      - function: "mp.input"
+        cmd_start: "./start.sh"
+        cmd_stop: "./stop.sh"
+        cpu_cores: 2
+        mem_max: 2048
+      - function: "mp.output"
+        cmd_start: "./start.sh"
+        cmd_stop: "./stop.sh"
+        cpu_cores: 2
+        mem_max: 1024
