@@ -45,7 +45,7 @@ vnfd:vnfd-catalog:
       vm-flavor:
         memory-mb: 512
         storage-gb: 4
-        vcpu-count: 1
+        vcpu-count: 2
     vnf-configuration:
       initial-config-primitive:
       - name: config

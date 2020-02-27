@@ -1,5 +1,5 @@
 #! /bin/bash
-pkill mitmproxy
+pkill mitmdump
 
 sleep 2
 python ./log_intf_statistics.py /tngbench_share/result.yml
